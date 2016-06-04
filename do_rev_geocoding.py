@@ -8,9 +8,10 @@ import argparse
 
 #first, parse arguments
 parser = argparse.ArgumentParser()
-parser.add_argument('-i', '--input', help = 'path to input file in csv or xls format', required = True)
-parser.add_argument('-k', '--key', help = 'Google Maps Geocoding API key - go to https://developers.google.com/maps/web-services/ to get one', required = True)
-parser.add_argument('-k', '--language', help = 'Language in which to display the results. See a list of supported languages in https://developers.google.com/maps/faq#languagesupport', default='en-US')
+parser.add_argument('-i', '--input',required = True, help = 'path to input file in csv or xls format.')
+parser.add_argument('-k', '--key', required = True, help = 'Google Maps Geocoding API key - go to https://developers.google.com/maps/web-services/ to get one')
+parser.add_argument('-l', '--language', default = 'en-US', help = 'Language in which to display the results. See a list of supported languages in https://developers.google.com/maps/faq#languagesupport')
+parser.add_argument('-s','--short', action = 'store_true', help = 'Flag to return abbreviated state or province names, if available')
 
 
 args = parser.parse_args()
@@ -43,14 +44,22 @@ nrow = len(latlon.index)
 for row in latlon.iterrows():
     sys.stdout.write('Reverse geocoding row ' +  str(row[0] + 1) + ' of ' + str(nrow) + '\r')
     sys.stdout.flush()
-    revgeocode_result = gmaps.reverse_geocode((row[1]['lat'],row[1]['lon']), language=lang)
+    try:
+        revgeocode_result = gmaps.reverse_geocode((float(row[1]['lat']),float(row[1]['lon'])), language=lang)
+    except ValueError:
+        print 'Incorrect format for latitude or longitude in row ' + str(row[0] +1) + '. Skipping'
+        sys.stdout.flush()
+        revgeocode_result = False
 
     if revgeocode_result: #proceed if found any match
         for i in revgeocode_result[0][u'address_components']: #loop through address components of the first match
             if 'country' in i[u'types']:
                 intable.loc[row[0],'country'] = i[u'long_name'] #index rows by number and columns by name
             if 'administrative_area_level_1' in i[u'types']:
-                intable.loc[row[0],'state'] = i[u'short_name']
+                if args.short:
+                    intable.loc[row[0],'state'] = i[u'short_name']
+                else:
+                    intable.loc[row[0],'state'] = i[u'long_name']
             if 'administrative_area_level_2' in i[u'types']:
                 intable.loc[row[0],'municipality'] = i[u'long_name']
             if 'route' in i[u'types']:

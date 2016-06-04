@@ -35,12 +35,16 @@ else:
     intable = pandas.read_csv(input_table_path)
 
 #check if columns for municipality, state and country exist, and add as appropriate
-for column in ['municipality', 'state', 'country','route']:
+for column in ['municipality', 'state', 'country','route', 'park']:
     if column not in intable.columns.values:
         intable[column] = np.nan
 
 #create a smaller dataframe only with variables of interest, to speed up code
-latlon = intable[['lat','lon']]
+try:
+    latlon = intable[['lat','lon']]
+except KeyError:
+    print 'Input table does not have columns named "lat" and "lon". Reverse geocoding aborted.'
+    sys.exit(1)
 nrow = len(latlon.index)
 
 #iterate over rows, do geocoding and save results to latlon table
@@ -67,6 +71,8 @@ for row in latlon.iterrows():
                 intable.loc[row[0],'municipality'] = i[u'long_name']
             if 'route' in i[u'types']:
                 intable.loc[row[0],'route'] = i[u'long_name']
+            if 'park' in i[u'types']:
+                intable.loc[row[0],'park'] = i[u'long_name']
 
 #write results
 intable.to_excel('geocoding_results.xls', encoding='utf-8', index = False)

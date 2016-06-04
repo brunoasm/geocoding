@@ -15,10 +15,14 @@ To use the program, download it and navigate to the folder where you downloaded.
 ###Examples:
 
 The following will read input.xls as the input table and get results in portuguese.
-`./rev_geocoding.py -i input.xls -l pt-BR -k AIzaSyBRcgh0NBzbtx8567HJcixDILCYc`
+```Bash
+./rev_geocoding.py -i input.xls -l pt-BR -k AIzaSyBRcgh0NBzbtx8567HJcixDILCYc
+```
 
 The following will read input.csv as the input table and get results in British English, with states abbreviated.
-`./rev_geocoding.py -i input.csv -l en-GB -s -k AIzaSyBRcgh0NBzbtx8567HJcixDILCYc`
+```Bash
+./rev_geocoding.py -i input.csv -l en-GB -s -k AIzaSyBRcgh0NBzbtx8567HJcixDILCYc
+```
 
 ###Required arguments
 

@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+
+### Created by Bruno de Medeiros (souzademedeiros@fas.harvard.edu) on 04-jun-2016
 ### This script uses the Python Client for Google Maps Services to do reverse geocoding
 ### The input table must have a column named lat and a column named lon
 ### The output will be the same table as input, but with columns added for municipality, state and country
+
 import googlemaps, sys, pandas
 import numpy as np
 import argparse

@@ -15,6 +15,7 @@ parser.add_argument('-i', '--input',required = True, help = 'path to input file 
 parser.add_argument('-k', '--key', required = True, help = 'Google Maps Geocoding API key - go to https://developers.google.com/maps/web-services/ to get one')
 parser.add_argument('-l', '--language', default = 'en-US', help = 'Language in which to display the results. See a list of supported languages in https://developers.google.com/maps/faq#languagesupport')
 parser.add_argument('-s','--short', action = 'store_true', help = 'Flag to return abbreviated state or province names, if available')
+parser.add_argument('-L', '--locality', action = 'store_true', help = 'In some countries (namely USA), standard script will return counties. This flag might make it return localities (i. e. town and city names)')
 
 
 args = parser.parse_args()
@@ -22,6 +23,10 @@ args = parser.parse_args()
 Gkey = args.key
 input_table_path = args.input
 lang = args.language
+if args.locality:
+    municipality_string = 'locality'
+else:
+    municipality_string = 'administrative_area_level_2'
 
 
 # Initiallizing google maps with API key
@@ -67,7 +72,7 @@ for row in latlon.iterrows():
                     intable.loc[row[0],'state'] = i[u'short_name']
                 else:
                     intable.loc[row[0],'state'] = i[u'long_name']
-            if 'administrative_area_level_2' in i[u'types']:
+            if municipality_string in i[u'types']:
                 intable.loc[row[0],'municipality'] = i[u'long_name']
             if 'route' in i[u'types']:
                 intable.loc[row[0],'route'] = i[u'long_name']

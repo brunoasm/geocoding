@@ -51,6 +51,10 @@ By default, the program returns results in English. If you want results in anoth
 
 If you use the option -s, the program will return abbreviated names for states/provinces. For example, MA instead of Massachusetts, or SP instead of São Paulo.
 
+-L LOCALITY
+
+The name of the field that Google uses to store locality information is not standardized across the world. For example, the stardad program will return cities and towns in Brazil, but counties in the USA. This flag makes the program return towns and cities for the USA, and might also work in other places.
+
 ##Output
 
 If run is successful, the program will copy the input table add columns named 'municipality', 'state', 'country', 'route' and 'park'. If the columns already exist, information will be overwritten.

@@ -45,18 +45,18 @@ You need a Google Maps API Key, which is a unique identifier that google gives t
 
 -l LANGUAGE
 
-By default, the program returns results in English. If you want results in another language, you have to provide it with the -l option. Check this website for languages supported by Google: https://developers.google.com/maps/faq#languagesupport
+By default, the program returns results in English. If you want results in another language, you have to call it with the -l option. Check this website for languages supported by Google: https://developers.google.com/maps/faq#languagesupport
 
 -s SHORT NAMES
 
-If you use the option -s, the program will return abbreviated names for states/provinces. For example, MA instead of Massachusetts, or SP instead of São Paulo.
+If you use the option -s, the program will output abbreviated names for states/provinces. For example, MA instead of Massachusetts, or SP instead of São Paulo.
 
 -L LOCALITY
 
-The name of the field that Google uses to store locality information is not standardized across the world. For example, the stardad program will return cities and towns in Brazil, but counties in the USA. This flag makes the program return towns and cities for the USA, and might also work in other places.
+The name of the field that Google uses to store locality information is not standardized across the world. For example, the standard program will return cities and towns in Brazil, but counties in the USA. This flag makes the program return towns and cities for the USA, and might also work for other places.
 
 ##Output
 
-If run is successful, the program will copy the input table add columns named 'municipality', 'state', 'country', 'route' and 'park'. If the columns already exist, information will be overwritten.
+If run is successful, the program will copy the input table and add columns named 'municipality', 'state', 'country', 'route' and 'park'. If columns with these names already exist, information will be overwritten.
 
-The output will be written to both an Excel and a csv file, named geocoding_results and saved in the folder in which the program was called.
+Output will be written to both an Excel and a csv file, named geocoding_results and saved in the folder in which the program was called.

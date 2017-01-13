@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 ### Created by Bruno de Medeiros (souzademedeiros@fas.harvard.edu) on 04-jun-2016
 ### This script uses the Python Client for Google Maps Services to do reverse geocoding
@@ -35,9 +36,9 @@ gmaps = googlemaps.Client(key= Gkey)
 # First, read input table for input arguments (excel or csv)
 
 if ".xls" in input_table_path:
-    intable = pandas.read_excel(input_table_path)
+    intable = pandas.read_excel(input_table_path,encoding='utf-8')
 else:
-    intable = pandas.read_csv(input_table_path)
+    intable = pandas.read_csv(input_table_path,encoding='utf-8')
 
 #check if columns for municipality, state and country exist, and add as appropriate
 for column in ['municipality', 'state', 'country','route', 'park']:

@@ -6,13 +6,13 @@ To solve this problem, I decided stop worrying about road and town names while i
 
 This script takes a list of latitudes and longitudes and returns the same list, but adding information about park, road, municipality, state and country associated with each record. 
 
-##Usage
+## Usage
 
 This is a command-line program written in [python](https://www.python.org), so you need to have python installed. Also, you need some non-standard libraries: [pandas](http://pandas.pydata.org) and [googlemaps](https://github.com/googlemaps/google-maps-services-python)
 
 To use the program, download it and navigate to the folder where you downloaded. Once in the folder, type `./rev_geocoding.py -h` to view a list of arguments used by the program.
 
-###Examples:
+### Examples:
 
 The following will read input.xls as the input table and get results in portuguese.
 ```Bash
@@ -24,7 +24,7 @@ The following will read input.csv as the input table and get results in British 
 ./rev_geocoding.py -i input.csv -l en-GB -s -k AIzaSyBRcgh0NBzbtx8567HJcixDILCYc
 ```
 
-###Required arguments
+### Required arguments
 
 -i INPUT
 
@@ -41,7 +41,7 @@ COL0246 | Cunha | -25.588286 | -46.610232 | MZSP
 You need a Google Maps API Key, which is a unique identifier that google gives to you allowing the use of their mapping service for free. Check the following link for information on how to get one: <https://developers.google.com/maps/web-services/> 
 
 
-###Optional arguments
+### Optional arguments
 
 -l LANGUAGE
 
@@ -55,7 +55,7 @@ If you use the option -s, the program will output abbreviated names for states/p
 
 The name of the field that Google uses to store locality information is not standardized across the world. For example, the standard program will return cities and towns in Brazil, but counties in the USA. This flag makes the program return towns and cities for the USA, and might also work for other places.
 
-##Output
+## Output
 
 If run is successful, the program will copy the input table and add columns named 'municipality', 'state', 'country', 'route' and 'park'. If columns with these names already exist, information will be overwritten.
 

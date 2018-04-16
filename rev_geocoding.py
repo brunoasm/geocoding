@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 
 ### Created by Bruno de Medeiros (souzademedeiros@fas.harvard.edu) on 04-jun-2016
@@ -55,13 +55,25 @@ nrow = len(latlon.index)
 
 #iterate over rows, do geocoding and save results to latlon table
 for row in latlon.iterrows():
+    revgeocode_result = True
     sys.stdout.write('Reverse geocoding row ' +  str(row[0] + 1) + ' of ' + str(nrow) + '\r')
     sys.stdout.flush()
-    try:
-        revgeocode_result = gmaps.reverse_geocode((float(row[1]['lat']),float(row[1]['lon'])), language=lang)
-    except ValueError:
-        print 'Incorrect format for latitude or longitude in row ' + str(row[0] +1) + '. Skipping'
-        sys.stdout.flush()
+    attempts = 0
+    while attempts<10:
+        try:
+            revgeocode_result = gmaps.reverse_geocode((float(row[1]['lat']),float(row[1]['lon'])), language=lang)
+            break
+        except ValueError:
+            print 'Incorrect format for latitude or longitude in row ' + str(row[0] +1) + '. Skipping'
+            sys.stdout.flush()
+            revgeocode_result = False
+            break
+        except googlemaps.exceptions.HTTPError:
+            print 'Error communicating with Google Maps, trying again. Attempt ' + str(attempts+1) + ' of 10.'
+            attempts += 1
+            sys.stdout.flush()
+    else:
+        print 'Too many attempts, skipping.'
         revgeocode_result = False
 
     if revgeocode_result: #proceed if found any match

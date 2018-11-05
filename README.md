@@ -1,8 +1,8 @@
 # Reverse geocoding
 ## Purpose
-Many biologists, like myself, do fieldwork covering large areas, collecting samples in multiple localities. Specimens are usually associated with GPS coordinates, but it might be hard to keep track of the names of localities where they were collected.
+Many biologists do fieldwork covering large areas, collecting samples in multiple localities. Specimens are usually associated with GPS coordinates, but it might be hard to keep track of the names of localities where they were collected.
 
-To solve this problem, I decided stop worrying about road and town names while in the field, and retrieve this information later from Google based on the GPS coordinates.
+If road and town names cannot be obtained while in the field, this information can be retrieve from coordinates later from Google maps.
 
 This script takes a list of latitudes and longitudes and returns the same list, but adding information about park, road, municipality, state and country associated with each record. 
 

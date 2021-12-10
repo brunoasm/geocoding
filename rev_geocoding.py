@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 ### Created by Bruno de Medeiros (souzademedeiros@fas.harvard.edu) on 04-jun-2016
@@ -49,7 +49,7 @@ for column in ['municipality', 'state', 'country','route', 'park']:
 try:
     latlon = intable[['lat','lon']]
 except KeyError:
-    print 'Input table does not have columns named "lat" and "lon". Reverse geocoding aborted.'
+    print('Input table does not have columns named "lat" and "lon". Reverse geocoding aborted.')
     sys.exit(1)
 nrow = len(latlon.index)
 
@@ -64,35 +64,35 @@ for row in latlon.iterrows():
             revgeocode_result = gmaps.reverse_geocode((float(row[1]['lat']),float(row[1]['lon'])), language=lang)
             break
         except ValueError:
-            print 'Incorrect format for latitude or longitude in row ' + str(row[0] +1) + '. Skipping'
+            print('Incorrect format for latitude or longitude in row ' + str(row[0] +1) + '. Skipping')
             sys.stdout.flush()
             revgeocode_result = False
             break
         except googlemaps.exceptions.HTTPError:
-            print 'Error communicating with Google Maps, trying again. Attempt ' + str(attempts+1) + ' of 10.'
+            print('Error communicating with Google Maps, trying again. Attempt ' + str(attempts+1) + ' of 10.')
             attempts += 1
             sys.stdout.flush()
     else:
-        print 'Too many attempts, skipping.'
+        print('Too many attempts, skipping.')
         revgeocode_result = False
 
     if revgeocode_result: #proceed if found any match
-        for i in revgeocode_result[0][u'address_components']: #loop through address components of the first match
-            if 'country' in i[u'types']:
-                intable.loc[row[0],'country'] = i[u'long_name'] #index rows by number and columns by name
-            if 'administrative_area_level_1' in i[u'types']:
+        for i in revgeocode_result[0]['address_components']: #loop through address components of the first match
+            if 'country' in i['types']:
+                intable.loc[row[0],'country'] = i['long_name'] #index rows by number and columns by name
+            if 'administrative_area_level_1' in i['types']:
                 if args.short:
-                    intable.loc[row[0],'state'] = i[u'short_name']
+                    intable.loc[row[0],'state'] = i['short_name']
                 else:
-                    intable.loc[row[0],'state'] = i[u'long_name']
-            if municipality_string in i[u'types']:
-                intable.loc[row[0],'municipality'] = i[u'long_name']
-            if 'route' in i[u'types']:
-                intable.loc[row[0],'route'] = i[u'long_name']
-            if 'park' in i[u'types']:
-                intable.loc[row[0],'park'] = i[u'long_name']
+                    intable.loc[row[0],'state'] = i['long_name']
+            if municipality_string in i['types']:
+                intable.loc[row[0],'municipality'] = i['long_name']
+            if 'route' in i['types']:
+                intable.loc[row[0],'route'] = i['long_name']
+            if 'park' in i['types']:
+                intable.loc[row[0],'park'] = i['long_name']
 
 #write results
 intable.to_excel('geocoding_results.xls', encoding='utf-8', index = False)
 intable.to_csv('geocoding_results.csv', encoding='utf-8', index = False)
-print 'Output written to geocoding_results.csv and geocoding_results.xls, with utf-8 encoding'
+print('Output written to geocoding_results.csv and geocoding_results.xls, with utf-8 encoding')
